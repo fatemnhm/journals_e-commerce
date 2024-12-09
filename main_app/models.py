@@ -1,5 +1,12 @@
 from django.db import models
+from django.urls import reverse
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+
 import datetime
+
+
 
 
 class Category(models.Model):
