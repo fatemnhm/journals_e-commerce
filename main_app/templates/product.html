@@ -54,17 +54,17 @@
     <br/> <br/>
     <br/> <br/>
     <br/> <br/>
-
+    
     <script>
       //if button is clicked  
-      $(document).on('click', '#add-cart', function(e){
+     $(document).on('click', '#add-cart', function(e){
         e.preventDefault();
         $.ajax({
           type: 'POST',
           url: '{% url "cart_add" %}',
           data: {
             product_id: $('#add-cart').val(),
-            csrfmiddlewaretoken: '{{ csrf_token }}'
+            csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
           },
           success: function (json) {
@@ -75,6 +75,6 @@
           }
         });
       });
-    </script>
+  </script>
         
 {% endblock %}
