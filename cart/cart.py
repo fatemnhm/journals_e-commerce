@@ -1,3 +1,4 @@
+from main_app.models import Product
 
 class Cart():
     def __init__(self,request):
@@ -12,11 +13,17 @@ class Cart():
     
     def add(self, product):
         product_id = str(product.id)
+       
 
         if product_id not in self.cart:
             self.cart[product_id] = {'price': str(product.price)}
         
         self.session.modified = True
-        
     
+    def __len__(self):
+        return len(self.cart)
     
+    def get_prods(self):
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+        return products

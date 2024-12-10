@@ -38,8 +38,6 @@
                   <p class="card-text"><small class="text-body-secondary">BHD {{product.price}}</small></p>
                     {% endif %}
 
-
-
                  <br/><br/>
                 <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
                 <button type="button" value="{{product.id}}" class="btn btn-success" id="add-cart">Add to Cart</button>
@@ -69,6 +67,8 @@
           },
           success: function (json) {
             console.log(json);
+            document.getElementById("cart_quantity").
+               textContent = json.qty; 
           },
           error: function(xhr, errmsg, err){
             console.log(xhr.status + ": " + xhr.responseText);
