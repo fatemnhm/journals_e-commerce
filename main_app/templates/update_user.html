@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">update profile</h1>
+        
+        </div>
+    </div>
+</header>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="row w-100">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="{% url 'update_user' %}">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                <br/>
+                <button type="submit" class="btn btn-secondary">UPDATE</button>
+             
+</div>
+{% endblock %}
