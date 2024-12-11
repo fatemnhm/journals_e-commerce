@@ -71,6 +71,7 @@
       
                     <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
                     <button type ="button" data-index="{{product.id}}" class="btn btn-secondary update-cart">Update</button>
+                    <button type ="button" data-index="{{product.id}}" class="btn btn-danger delete-product">remove</button>
 
                    
                     </center>
@@ -83,6 +84,7 @@
     
        
         {% endfor %}
+        <h3>Total: BHD {{totals}}<h3>
     {% else %}
     <p>Cart is empty</p>
     <br/> <br/>
@@ -114,6 +116,28 @@
           data: {
             product_id: $(this).data('index'),
             product_qty: $('#select' + productid + ' option:selected').text(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+          },
+          success: function (json) {
+            location.reload();
+          },
+          error: function(xhr, errmsg, err){
+            console.log(xhr.status + ": " + xhr.responseText);
+          }
+        });
+      });
+
+
+
+
+      $(document).on('click', '.delete-product', function(e){
+        e.preventDefault(); 
+        $.ajax({
+          type: 'POST',
+          url: '{% url "cart_delete" %}',
+          data: {
+            product_id: $(this).data('index'),
             csrfmiddlewaretoken: '{{ csrf_token }}',
             action: 'post'
           },

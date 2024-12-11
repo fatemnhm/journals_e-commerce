@@ -41,3 +41,27 @@ class Cart():
         self.session.modified = True
         thiing = self.cart
         return thiing
+    
+    def delete(self, product):
+        product_id = str(product)
+        if product_id in self.cart:
+            del self.cart[product_id]
+        
+        self.session.modified = True
+    
+    def cart_total(self):
+        products_ids= self.cart.keys()
+        products = Product.objects.filter(id__in=products_ids)  
+        quantity = self.cart
+        total = 0
+        for key, value in quantity.items():
+            for product in products:
+                if product.id == int(key):
+                    if product.is_sale:
+                        total += product.sale_price * value
+                    else:
+                        total += product.price * value
+        return total
+      
+      
+        

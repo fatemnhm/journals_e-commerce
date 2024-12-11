@@ -7,6 +7,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .forms import SignUpForm
 
+def category_summary(request):
+    categories = Category.objects.all()
+    return render(request, 'category_summary.html',{'categories':categories})
+
 def category(request, foo):
     foo=foo.replace('-', ' ')
     try:
@@ -47,7 +51,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    messages.success(request, 'You have been logged out')
     return render(request, 'home.html')
 
 def register_user(request):
