@@ -1,1 +1,1 @@
-web: gunicorn journals_e-commerce.wsgi
+web: gunicorn projectCollector.wsgi
