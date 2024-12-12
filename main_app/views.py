@@ -1,12 +1,38 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from .models import Product, Category
+from .models import Product, Category, Profile
 from django.contrib.auth.models import User
 from django import forms
-from .forms import SignUpForm, UserCreationForm,UpdateUserForm
+from .forms import SignUpForm, UserCreationForm,UpdateUserForm,UserInfoForm
+from payment.models import ShippingAddress
+from payment.forms import ShippingForm
+import json
+from cart.cart import Cart
 
+def update_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(user__id=request.user.id)
+        
+        try:
+            shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+        except ShippingAddress.DoesNotExist:
+            shipping_user = ShippingAddress(user=request.user)  # Create a new instance if it does not exist
+        
+        form = UserInfoForm(request.POST or None, instance=current_user)
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        
+        if form.is_valid() and shipping_form.is_valid():
+            form.save()
+            shipping_form.save()
+            messages.success(request, "Your Info Has Been Updated!!")
+            return redirect('home')
 
+        return render(request, 'update_info.html', {'form': form, 'shipping_form': shipping_form})
+    else:
+        messages.success(request, "You Must Be Logged In To Access That Page!!")
+        return redirect('home')
+  
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
@@ -52,20 +78,36 @@ def about(request):
     return render(request, 'about.html')
 
 def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, 'You are now logged in')
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid credentials')
-            return redirect('login')
-    else:
-        messages.error(request, 'You need to login first')
-        return render(request, 'login.html')
+	if request.method == "POST":
+		username = request.POST['username']
+		password = request.POST['password']
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+
+			# Do some shopping cart stuff
+			current_user = Profile.objects.get(user__id=request.user.id)
+			# Get their saved cart from database
+			saved_cart = current_user.old_cart
+			# Convert database string to python dictionary
+			if saved_cart:
+				# Convert to dictionary using JSON
+				converted_cart = json.loads(saved_cart)
+				# Add the loaded cart dictionary to our session
+				# Get the cart
+				cart = Cart(request)
+				# Loop thru the cart and add the items from the database
+				for key,value in converted_cart.items():
+					cart.db_add(product=key, quantity=value)
+
+			messages.success(request, ("You Have Been Logged In!"))
+			return redirect('home')
+		else:
+			messages.success(request, ("There was an error, please try again..."))
+			return redirect('login')
+
+	else:
+		return render(request, 'login.html', {})
 
 def logout_user(request):
     logout(request)
@@ -82,13 +124,11 @@ def register_user(request):
             user = authenticate(request, username=username, password=password)
             login(request, user)
             messages.success(request, 'You are now logged in')
-            return redirect('home')
+            return redirect('update_info')
         else:
-            messages.error(request, 'you have registered successfully')
-            return redirect('register')
+            messages.error(request, 'There was an error with your registration')
+            return render(request, 'register.html', {'form': form})
     else:
-        messages.error(request, 'You need to register first')
         return render(request, 'register.html', {'form': form})
-
 
 
