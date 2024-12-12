@@ -2,18 +2,18 @@
 
 A fully functional e-commerce web application built with Django that allows users to browse products, manage their shopping cart, place orders, and update their profiles. This project demonstrates a robust foundation for an online shopping experience, combining user-friendly features with a scalable backend.
 
-## Screenshots
+
 
 ### Home Page
 ![Home Page](assests/1.png)
 
-### Cart Summary
+### Checkout
 ![Checkout](assests/2.png)
 
-### Checkout Page
+### Billing Information
 ![Billing Information](assests/3.png)
 
-### Checkout Page
+### Profile
 ![Profile](assests/4.png)
 
 ---
@@ -47,7 +47,7 @@ A fully functional e-commerce web application built with Django that allows user
 ## Deployment
 
 Access the live application here:  
-[**Deployment Link**](https://example-deployment-link.com)
+[**Deployment Link**]()
 
 ---
 
