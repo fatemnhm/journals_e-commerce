@@ -10,14 +10,18 @@
     </div>
 </header>
 
+<!-- Registration Form -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
     <div class="row w-100">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6 offset-md-3 bg-light p-4 rounded shadow">
             <form method="POST" action="{% url 'register' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <br/>
-                <button type="submit" class="btn btn-secondary">Register</button>
-             
+                <div class="mt-4 text-center">
+                    <button type="submit" class="btn btn-secondary px-4">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

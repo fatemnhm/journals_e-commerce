@@ -49,7 +49,7 @@ A fully functional e-commerce web application built with Django that allows user
 ## Deployment
 
 Access the live application here:  
-[**Deployment Link**]()
+[**Deployment Link**](https://journals-e-commerce-c613e2d9c120.herokuapp.com/)
 
 ---
 

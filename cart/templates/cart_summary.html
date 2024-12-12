@@ -39,9 +39,10 @@
                     {% else %}
                     <p class="card-text"><small class="text-body-secondary">BHD {{product.price}}</small></p>
                     {% endif %}
-                    <br/><br/>
+                 
+                    <div>Quantity</div>
                     <div class"row justify-content-center">
-                        <div class="col-md-2">Quantity</div>
+                      
                         <div class="col-md-2">
       
                        <select class="form-select form-select-sm" id="select{{product.id}}">
@@ -64,7 +65,7 @@
                       <br/>
                       <br/>
       
-                    <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
                     <button type ="button" data-index="{{product.id}}" class="btn btn-secondary update-cart">Update</button>
                     <button type ="button" data-index="{{product.id}}" class="btn btn-danger delete-product">remove</button>
 
@@ -81,7 +82,7 @@
         {% endfor %}
         <div align="right">
           <h3>Total: BHD {{totals}}<h3>
-          <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+          <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
         </div>
     {% else %}
     <p>Cart is empty</p>
